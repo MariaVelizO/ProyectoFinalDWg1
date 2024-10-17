@@ -1,4 +1,4 @@
-const express = require('espress')
+const express = require('express')
 const router = express.Router()
 // importar los metodos 
 const {} = require('../controllers/coworking.controller')
@@ -7,4 +7,4 @@ const {} = require('../controllers/coworking.controller')
 
 
 
-module.export = router;
+module.exports = router;
