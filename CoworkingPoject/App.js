@@ -4,7 +4,9 @@ const app = express();
 const port = 3001
 const coworkingRoutes = require('./routes/coworking.routes')
 
+//rutas de api
 app.use('/api',  coworkingRoutes);
+app.use('/api/usuario', usuarioRoutes);//rutas para usuarios
 
 app.get('/', (req, res) => {
     res.send('Hello World!')
@@ -15,9 +17,9 @@ app.listen(port, () =>{
 });
 
 mongoose.connect('mongodb://127.0.0.1:27017/coworkingproject').then(()=>{
-    console.log('La conexion a la base de datos a sigo exitosa');
+    console.log('La conexión a la base de datos a sido exitosa');
 }).catch((err)=>{
-    console.log("Ocurrio un error, no se pudo conectar a la base de datos");
+    console.log("Ocurri+o un error, no se pudo conectar a la base de datos");
     console.log(err);
 });
 
