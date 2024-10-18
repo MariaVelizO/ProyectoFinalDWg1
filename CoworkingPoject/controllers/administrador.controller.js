@@ -1,52 +1,68 @@
-const Usuario = require('../models/usuario.model');
+const Espacio = require('../models/espacio.model');
+const Reserva = require('../models/reserva.model');
 
-//obtener vista de todos los usuarios con FUNCION ASINCRONA
-exports.getAllUsuarios = async(req, res) => {
-    const Usuarios = await Usuario.find(); //await espera a obtener la respuesta de la BD
-    res.status(200).json(Usuarios); // 200 op termino bien
+//ESPACIOS
+
+// imprime todos los espacios
+exports.getAllEspacios = async (req, res) =>{
+    const Espacios  = await Espacios .find();
+    res.status(200).json(Espacios );
 };
 
-exports.addUsuario = async(req, res) => {  //asyn hay que esperar para continuar
-    //console.log(req)
-    const nuevoUsuario = await Usuario.create(req.body); //await espera a obtener la respuesta de la BD
-    res.status(201).json(nuevoUsuario); // 201 se ha creado un objeto
-};
+//crea un espacio
+exports.addEspacios = async (req, res) =>{
+    console.log(req)
+    const nuevoEspacio = await Espacio.create(req.body)
+    res.status(201).json(nuevoEspacio);
+}
 
-exports.getUsuarioPorID = async(req, res) => {  //asyn hay que esperar para continuar
-    const idUsuario = req.params.id;//await espera a obtener la respuesta de la BD
 
-    const usuario = await Usuario.findById(idUsuario);
+// imprime los espacios por estado para ver disponibilidad
+exports.getEspaciosPorDisponibilidad = async (req, res) =>{
+    const DisponEspacio = req.params.id;
 
-    if(!usuario){
-        //fallido
-        return res.status(404).send({ mensaje: 'Usuario no encontrado'});
-    }
-    res.status(200).json(usuario);
-};
-
-exports.updateUser = async(req, res) => {  
-    //console.log(req)
-    const idUsuario =  req.params.id;
-
-    const usuarioActualizado = await Usuario.findByIdAndUpdate(idUsuario, req.body, {new: true, runValidators: true});//nuevo usuario
-
-    if(!usuarioActualizado){
-        return res.status(404).send({mensaje: 'Usuario no Encontrado'});
+    const espacios = await espacios.findById(DisponEspacio);
+    
+    if(!espacios){
+        //fallida
+        return res.status(404).send({mensaje: 'Espacio no encontrado'});
     }
 
-    res.status(200).json(usuarioActualizado); // 201 se ha creado un objeto
-};
+    res.status(200).json(espacios);
+}
 
-exports.deleteUser = async(req, res) => {  
-    const idUsuario = req.params.id;
+//actualiza los espacios
+exports.updateEspacio =  async (req, res) => {
+    const idEspacio = req.params.id;
 
-    const usuario = await Usuario.findByIdAndDelete(idUsuario);
-
-    if(!usuario){
-        //fallido
-        return res.status(404).send({ mensaje: 'Usuario no encontrado'});
+    const espacioActualizado = await Espacio.findByIdAndUpdate(idEspacio, req.body, {new: true, runValidators: true});
+    
+    if (!espacioActualizado){
+        return res.status(404).send({mensaje: 'Espacio no encontrado'});
     }
-    res.status(200).json(usuario);
+
+    res.status(200).json(espacioActualizado);
+}
+
+//elimina los espacio
+exports.deleteEspacio = async (req, res) =>{
+    const idEspacio = req.params.id;
+
+    const Espacio = await Usuario.findByIdAndDelete(idEspacio);
+    
+    if(!Espacio){
+        //fallida
+        return res.status(404).send({mensaje: 'Espacio no encontrado'});
+    }
+     // Espacio eliminado correctamente
+     res.status(200).send({ mensaje: 'Espacio eliminado exitosamente' });
+    
+}
+
+//RESERVA
+
+//imprimir reservas 
+exports.getAllReserva = async (req, res) =>{
+    const Reserva  = await Reserva .find();
+    res.status(200).json(Reserva );
 };
-
-
