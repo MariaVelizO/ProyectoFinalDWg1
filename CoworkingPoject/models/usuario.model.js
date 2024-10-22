@@ -11,11 +11,24 @@ const UsuarioEsquema = new mongoose.Schema({
         type: String,
         required:true
     },
-    telefono: Number,
-    email: String,
+    telefono: {
+        type: Number,
+        validate: {
+            validator: (v) => /^[0-9]{8}$/.test(v), // Valida un número de 8 dígitos
+            message: (props) => `${props.value} no es un número de teléfono válido`
+        }
+    },
+    email: {
+            type: String,
+            required: true,
+            unique: true, // Garantiza que no se repita
+            lowercase: true, // Almacena siempre en minúsculas
+            match: [/\S+@\S+\.\S+/, 'Correo electrónico no válido']
+    },
     password: {
         type: String,
-        required: true
+        required: true,
+        minlength: 6 // Requiere al menos 6 caracteres
     },
     role: {
         type: String,
