@@ -11,23 +11,23 @@ router.post('/registroUsuario', registroUser );
 // inicio de sesion 
 router.post('/login', Login ); 
 // Ruta para recuperación de contraseña
-router.post('/olvidoContrasena', contrasenaOlvidada); 
+router.post('/olvidoContrasena', checkRole(['admin', 'user']), contrasenaOlvidada); 
 //restablecimiento de la contrasena
-router.post('/resetContrasena', restablecerContrasena); 
+router.post('/resetContrasena', checkRole(['admin', 'user']), restablecerContrasena); 
 // Rutas para manejo de roles
-router.put('/userRol', putUserRole); 
+//router.put('/userRol', putUserRole); 
 // Rutas para Espacios
-router.get('/espaciosDisponibles', getEspaciosDisponibles); 
+router.get('/espaciosDisponibles', checkRole(['user']), getEspaciosDisponibles); 
 //crear una reserva
-router.post('/crearReserva', crearReserva);
+router.post('/crearReserva', checkRole(['user']), crearReserva);
 //obtener las reservas por usuario
-router.get('/reservas/usuario/:id', reservaPorUsuario); 
+router.get('/reservas/usuario/:id', checkRole(['user']), reservaPorUsuario); 
 //modificar reserva por usuario
-router.put('/modificarReserva/:id', modifReserva); 
+router.put('/modificarReserva/:id', checkRole(['user']), modifReserva); 
 //cancelar reserva por usuario
-router.put('/cancelarReserva/:id', cancelarReserva); 
+router.put('/cancelarReserva/:id', checkRole(['user']), cancelarReserva); 
 // Rutas para Comentarios
-router.post('/comentario', gregarComentario); 
+router.post('/comentario', checkRole(['user']), agregarComentario); 
 
 module.exports = router;
 

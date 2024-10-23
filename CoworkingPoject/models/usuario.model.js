@@ -47,4 +47,4 @@ const UsuarioEsquema = new mongoose.Schema({
 });
 
 //exportacion del modelo usuario
-model.exports = mongoose.model('usuario', UsuarioEsquema);
+module.exports = mongoose.model('usuario', UsuarioEsquema);

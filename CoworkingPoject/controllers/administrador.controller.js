@@ -1,4 +1,4 @@
-const Espacio = require('../models/espacio.model');
+const Espacio = require('../models/espacios.model');
 const Reserva = require('../models/reserva.model');
 
 //ESPACIOS
