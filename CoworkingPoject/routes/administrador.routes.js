@@ -11,11 +11,11 @@ router.get('/Espacios', checkRole(['admin']), getAllEspacios);
 //crea un espacio
 router.post('/Espacio', checkRole(['admin']), addEspacios);
 // imprime los espacios por estado para ver disponibilidad
-router.get('/EspacioDisponible', checkRole(['admin']), getEspaciosPorDisponibilidad);
+router.get('/EspacioDisponible/:estado', checkRole(['admin']), getEspaciosPorDisponibilidad);
 //actualiza los espacios
-router.put('/updateEspacio', checkRole(['admin']), updateEspacio);
+router.put('/updateEspacio/:id', checkRole(['admin']), updateEspacio);
 //elimina los espacio
-router.delete('/deleteEspacio', checkRole(['admin']), deleteEspacio);
+router.delete('/deleteEspacio/:id', checkRole(['admin']), deleteEspacio);
 //imprimir reservas 
 router.get('/reservas', checkRole(['admin']), getAllReserva);
 

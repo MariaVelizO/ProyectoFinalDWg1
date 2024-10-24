@@ -5,7 +5,7 @@ const Reserva = require('../models/reserva.model');
 
 // imprime todos los espacios
 exports.getAllEspacios = async (req, res) =>{
-    const Espacios  = await Espacios .find();
+    const Espacios  = await Espacio.find();
     res.status(200).json(Espacios );
 };
 
@@ -18,18 +18,27 @@ exports.addEspacios = async (req, res) =>{
 
 
 // imprime los espacios por estado para ver disponibilidad
-exports.getEspaciosPorDisponibilidad = async (req, res) =>{
-    const DisponEspacio = req.params.id;
+exports.getEspaciosPorDisponibilidad = async (req, res) => {
+    try {
+        const estado = req.params.estado;  // "activo" o "desactivado"
 
-    const espacios = await espacios.findById(DisponEspacio);
-    
-    if(!espacios){
-        //fallida
-        return res.status(404).send({mensaje: 'Espacio no encontrado'});
+        // Busca todos los espacios con el estado proporcionado
+        const espacios = await Espacio.find({ estado });
+
+        // Verifica si se encontraron espacios
+        if (espacios.length === 0) {
+            return res.status(404).json({ mensaje: 'No se encontraron espacios con el estado especificado' });
+        }
+
+        // Responde con los espacios encontrados
+        res.status(200).json(espacios);
+    } catch (error) {
+        // Manejo de errores
+        console.error(error);
+        res.status(500).json({ mensaje: 'Error al obtener los espacios' });
     }
+};
 
-    res.status(200).json(espacios);
-}
 
 //actualiza los espacios
 exports.updateEspacio =  async (req, res) => {
@@ -48,9 +57,9 @@ exports.updateEspacio =  async (req, res) => {
 exports.deleteEspacio = async (req, res) =>{
     const idEspacio = req.params.id;
 
-    const Espacio = await Usuario.findByIdAndDelete(idEspacio);
+    const espacioEliminado = await Espacio.findByIdAndDelete(idEspacio);
     
-    if(!Espacio){
+    if(!espacioEliminado){
         //fallida
         return res.status(404).send({mensaje: 'Espacio no encontrado'});
     }
@@ -63,6 +72,6 @@ exports.deleteEspacio = async (req, res) =>{
 
 //imprimir reservas 
 exports.getAllReserva = async (req, res) =>{
-    const Reserva  = await Reserva .find();
-    res.status(200).json(Reserva );
+    const Reservas  = await Reserva.find();
+    res.status(200).json(Reservas );
 };
