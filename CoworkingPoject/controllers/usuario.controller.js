@@ -67,6 +67,7 @@ exports.Login = async (req, res) => {
         console.error(error);
         return res.status(500).send('Error del servidor');
     }
+    
 };
 
 // recuperación de contraseña
