@@ -20,7 +20,7 @@ h1 {
     margin: 0;  
     margin-top: 20px; 
     margin-left: 10px;
-    margin-bottom: -10px;
+    margin-bottom: -5px;
 }
 h2 {
     text-align: center;
@@ -212,6 +212,45 @@ z-index: 2;
     transform: translateX(20%);
 }
 
-.error-mensaje {
+.input-black {
+    border: 2px solid rgba(12, 3, 0, 0);
+}
+
+.input-invalid {
+    border: 2px solid red;
+    animation: shake 0.5s ease-in-out;
+}
+/* esta animacion es para los contenedores que estan denegados*/
+@keyframes shake {
+    0% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-5px);
+    }
+    50% {
+        transform: translateX(5px);
+    }
+    75% {
+        transform: translateX(-5px);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+.input-valid {
+    border: 2px solid green;
+}
+
+.error-message {
     color: red;
+    font-size: 10px;
+    margin-top: 5px;
+}
+
+
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
