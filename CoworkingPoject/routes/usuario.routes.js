@@ -1,33 +1,46 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt'); // paquete para encriptar contraseñas 
-const {registroUser,Login,contrasenaOlvidada,restablecerContrasena, putUserRole, getEspaciosDisponibles, crearReserva, reservaPorUsuario, modifReserva, cancelarReserva, agregarComentario} = require('../controllers/usuario.controller');
+const {registroUser, Login, contrasenaOlvidada, restablecerContrasena, putUserRole, getEspaciosDisponibles, crearReserva, reservaPorUsuario, modifReserva, cancelarReserva, agregarComentario} = require('../controllers/usuario.controller');
 const { checkRole } = require('../middleware/auth');
 
 //definir rutas  y métodos de acción
 
-// registro del usuario
-router.post('/registroUsuario', registroUser );
-// inicio de sesion 
-router.post('/login', Login ); 
-// Ruta para recuperación de contraseña
-router.post('/olvidoContrasena', checkRole(['admin', 'user']), contrasenaOlvidada); 
-//restablecimiento de la contrasena
-router.post('/resetContrasena', checkRole(['admin', 'user']), restablecerContrasena); 
-// Rutas para manejo de roles
-//router.put('/userRol', putUserRole); 
-// Rutas para Espacios
-router.get('/espaciosDisponibles', checkRole(['user']), getEspaciosDisponibles); 
-//crear una reserva
-router.post('/crearReserva', checkRole(['user']), crearReserva);
-//obtener las reservas por usuario
-router.get('/reservas/usuario/:id', checkRole(['user']), reservaPorUsuario); 
-//modificar reserva por usuario
-router.put('/modificarReserva/:id', checkRole(['user']), modifReserva); 
-//cancelar reserva por usuario
-router.put('/cancelarReserva/:id', checkRole(['user']), cancelarReserva); 
-// Rutas para Comentarios
-router.post('/comentario', checkRole(['user']), agregarComentario); 
+//registro de un nuevo usuario
+router.post('/registerUser', registroUser);
+
+//inicio de sesion 
+router.post('/user-login', Login);
+
+//recuperacion de contrasena 
+router.post('/contrasena-olvidada',checkRole(['admin', 'user']), contrasenaOlvidada);
+
+//reestablecimiento de contrasena
+router.post('/reestablecer-contrasena', checkRole(['admin', 'user']), restablecerContrasena);
+
+//cambio de rol
+router.put('/usuarioRol/:id',putUserRole);
+
+//visualizacion de los espacios de trabajo disponible
+router.get('/espacios', checkRole(['user']), getEspaciosDisponibles);
+
+//creacion de reserva de espacios de trabajo 
+router.post('/reserva', checkRole(['user']), crearReserva);
+
+//obtener reservas por usuario
+router.get('/reservas/usuario/:id', checkRole(['user']), reservaPorUsuario);
+
+//modificar reservas por usuario
+router.put('/reserva-modificacion/:id', checkRole(['user']), modifReserva);
+
+//cancelar reservas por usuario
+router.put('/reserva-cancelacion/:id', checkRole(['user']),  cancelarReserva);
+
+//crear un comentario
+router.post('/comentario-usuario', checkRole(['user']), agregarComentario);
+
+//redireccion luego de logearse
+
 
 module.exports = router;
 
