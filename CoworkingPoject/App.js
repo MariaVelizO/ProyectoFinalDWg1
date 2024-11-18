@@ -12,10 +12,10 @@ const adminRoutes = require('./routes/administrador.routes')//importación de ru
 // Configuración de CORS
 const corsOptions = {
     origin: 'http://localhost:3000', // Permite solicitudes solo desde este origen
-    methods: ['GET'], // Solo permite el método GET
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'], // Encabezados permitidos
     credentials: true, // Permite el envío de cookies
-    maxAge: 3600, // Tiempo máximo de vida de las solicitudes preflight (en segundos)
+    //maxAge: 3600, // Tiempo máximo de vida de las solicitudes preflight (en segundos)
 };
 
 // Habilitar CORS con las opciones configuradas
@@ -27,10 +27,6 @@ app.use(express.json());
 //rutas de api
 app.use('/api/usuario', usuarioRoutes);//rutas para usuarios
 app.use('/api/admin', adminRoutes);//rutas para usuarios
-
-app.get('/', (req, res) => {
-    res.send('Hello World!')
-})
 
 app.listen(port, () =>{
     console.log('El servidor está listo')

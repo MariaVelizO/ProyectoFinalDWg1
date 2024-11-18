@@ -62,12 +62,12 @@ exports.Login = async (req, res) => {
     //generar token 
     const token = jwt.sign({ id: user.id, role: user.role}, JWT_SECRET, { expiresIn: '1y'});
 
-    res.send(token);
+    //Enviar token
+    res.status(200).json({ token, user: { id: user.id, role: user.role } });
     }catch (error) {
         console.error(error);
         return res.status(500).send('Error del servidor');
-    }
-    
+    } 
 };
 
 // recuperación de contraseña
@@ -141,16 +141,23 @@ exports.restablecerContrasena = async (req, res) => {
 
 //roles usuarios
 exports.putUserRole = async(req, res) => {         
-    const{role} = req.body; // del body capturamos un parametro
+    const{ role } = req.body; // del body capturamos un parametro
+
+    if (!role) {
+        return res.status(400).send('El rol es requerido.');
+    }
 
     try{
         const user = await Usuario.findByIdAndUpdate(req.params.id, {role}, {new:true});
 
-        if(!user) return res.status(404).send('Usuario no encontrado.');
+        if(!user) {
+            return res.status(404).send('Usuario no encontrado.');
+        }
 
         res.status(200).json(user); //si el usuario se encuentra manda el parametro
-    }catch{
-        res.status(500).json('Algo salió mal');
+    } catch (error) {
+        console.error('Error al actualizar el rol del usuario:', error);
+        res.status(500).json({ message: 'Algo salió mal al actualizar el rol del usuario.' });
     }
 }
 
@@ -158,40 +165,70 @@ exports.putUserRole = async(req, res) => {
 exports.getEspaciosDisponibles = async (req, res) => {
     try {
         // Obtener solo los espacios con estado activo
-        const { tipo, capacidad, ubicacion, disponibilidad } = req.query;
+        const { fechaReserva, horaInicio, horaFin } = req.query;
 
-        // Crear objeto de filtro dinámico
-        let busquedaFiltros = { estado: 'activo' };
-
-        if (tipo) {
-            busquedaFiltros.tipo = tipo;
+         // Validar parámetros
+        if (!fechaReserva || !horaInicio || !horaFin) {
+            return res.status(400).json({ error: 'Faltan parámetros obligatorios' });
         }
 
-        if (capacidad) {
-            busquedaFiltros.capacidad = { $gte: capacidad }; // Capacidad mayor o igual al valor
+        const fecha = new Date(fechaReserva);
+        if (isNaN(fecha)) {
+            return res.status(400).json({ error: 'Fecha de reserva inválida' });
         }
 
-        if (ubicacion) {
-            busquedaFiltros.ubicacion = ubicacion;
+        const diaSemana = fecha.toLocaleDateString('es-ES', { weekday: 'long' }).toLowerCase(); // Ej: "lunes"
+        
+        // Convertir hora de inicio y fin a minutos desde medianoche para comparación
+        const horaInicioMinutos = parseInt(horaInicio.split(':')[0]) * 60 + parseInt(horaInicio.split(':')[1]);
+        const horaFinMinutos = parseInt(horaFin.split(':')[0]) * 60 + parseInt(horaFin.split(':')[1]);
+
+        if (isNaN(horaInicioMinutos) || isNaN(horaFinMinutos)) {
+            return res.status(400).json({ error: 'Horas inválidas' });
         }
 
-        if (disponibilidad) {
-            busquedaFiltros.disponibilidad = disponibilidad; 
-        }
+        const espacios = await Espacio.find({ estado: 'activo' });
 
-        // Buscar espacios según los filtros
-        const espacios = await Espacio.find(busquedaFiltros);
+        const espaciosDisponibles = espacios.filter(espacio => {
+            return espacio.disponibilidad.some(rango => {
+                if (typeof rango === 'string') {
+                    // Caso: "Lunes a Viernes, 9:00 - 18:00"
+                    const [dias, horas] = rango.split(', ');
+                    if (!dias || !horas) return false;
 
-        if (espacios.length === 0) {
-            return res.status(404).send({ mensaje: 'No se encontraron espacios con los filtros especificados' });
-        }
+                    // Formateo de días 
+                    const diasValidos = dias.toLowerCase().split(' a ').map(d => d.trim());
+                    const [horaApertura, horaCierre] = horas.split(' - ').map(h => {
+                        const [hh, mm] = h.split(':');
+                        return parseInt(hh) * 60 + parseInt(mm); 
+                    });
 
-        res.status(200).json(espacios);
+                    // Verificar si el día de la semana está dentro de los días válidos
+                    const esDiaDisponible =
+                        diasValidos.length === 1
+                            ? diasValidos[0] === diaSemana
+                            : diasValidos.includes(diaSemana);
+
+                    // Verificar si las horas solicitadas están dentro del rango de horas disponibles
+                    const esHoraDisponible = horaInicioMinutos >= horaApertura && horaFinMinutos <= horaCierre;
+
+                    return esDiaDisponible && esHoraDisponible;
+                }
+
+                return false;
+            });
+        });
+
+        // Log para verificar los espacios disponibles
+        //console.log('Espacios disponibles:', espaciosDisponibles); //quitar
+
+        res.json(espaciosDisponibles);
     } catch (error) {
-        console.error("Error al obtener los espacios:", error);
-        res.status(500).send({ mensaje: 'Error en el servidor' });
+        console.error('Error al obtener los espacios', error);
+        res.status(500).json({ error: 'Error al obtener los espacios disponibles' });
     }
 };
+
 
 // crear reserva de un espacio de trabajo
 exports.crearReserva = async (req, res) => {
@@ -200,12 +237,8 @@ exports.crearReserva = async (req, res) => {
 
         // Verificar si el espacio existe y está activo
         const espacio = await Espacio.findById(espacioId);
-        if (!espacio) {
+        if (!espacio || espacio.estado !== 'activo') {
             return res.status(404).json({ mensaje: 'Espacio no encontrado' });
-        }
-
-        if (espacio.estado !== 'activo') {
-            return res.status(400).json({ mensaje: 'El espacio no está disponible para reservas' });
         }
 
         // Verificar si el usuario existe
@@ -214,26 +247,41 @@ exports.crearReserva = async (req, res) => {
             return res.status(404).json({ mensaje: 'Usuario no encontrado' });
         }
 
+       // Verificar si hay reservas conflictivas en el espacio seleccionado
+        const reservasConflictivas = await Reserva.find({
+            espacio: espacioId,
+            fechaReserva,
+            $or: [
+                { horaInicio: { $lt: horaFin, $gte: horaInicio } },
+                { horaFin: { $gt: horaInicio, $lte: horaFin } },
+                { horaInicio: { $lte: horaInicio }, horaFin: { $gte: horaFin } }
+            ]
+        });
+
+        if (reservasConflictivas.length > 0) {
+            return res.status(400).json({ mensaje: 'El espacio ya está reservado en el horario seleccionado' });
+        }
+
         // Crear una nueva reserva
         const nuevaReserva = new Reserva({
-            usuario: usuarioId,
             espacio: espacioId,
+            usuario: usuarioId,
             fechaReserva,
             horaInicio,
             horaFin,
-            estado: 'activo' //tomamos en cuenta unicamente espacios activos
+            usuarioEmail
         });
 
         // Guardar la reserva en la base de datos
         await nuevaReserva.save();
 
-        // Respuesta exitosa con detalles de la reserva notificaacion interna
+        // Respuesta exitosa con detalles de la reserva
         res.status(201).json({
             mensaje: 'Reserva creada exitosamente',
             reserva: nuevaReserva
         });
 
-        // Enviar correo de confirmación al usuario, notificacion externa
+        // Enviar correo de confirmación al usuario
         correoConfirmacion(usuarioEmail, nuevaReserva);
 
     } catch (error) {
@@ -257,12 +305,12 @@ const correoConfirmacion = async (usuarioEmail, reserva) => {
         subject: 'Confirmación de Reserva de Espacio de Trabajo',
         text: `Su reserva ha sido confirmada. Aquí están los detalles de la reserva:
 
-Espacio reservado: ${reserva.espacio}
-Fecha de reserva: ${reserva.fechaReserva}
-Hora de inicio: ${reserva.horaInicio}
-Hora de fin: ${reserva.horaFin}
+    Espacio reservado: ${reserva.espacio}
+    Fecha de reserva: ${reserva.fechaReserva}
+    Hora de inicio: ${reserva.horaInicio}
+    Hora de fin: ${reserva.horaFin}
 
-Gracias por utilizar nuestro servicio.`,
+    Gracias por utilizar nuestro servicio.`,
     };
 
     try {

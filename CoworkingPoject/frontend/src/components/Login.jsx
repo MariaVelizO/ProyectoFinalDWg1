@@ -21,6 +21,14 @@ function Login({ setIsAuthenticated, setIsSignUpActive }) {
                 email: emailIngreso, 
                 password: passwordIngreso 
             });
+
+            // Guardar el token en localStorage
+            const { token, user } = response.data;
+            localStorage.setItem('token', token);
+            localStorage.setItem('userId', user.id);  // Guardamos el ID
+            localStorage.setItem('userEmail', emailIngreso); // Guardamos el correo
+            console.log('Token, ID y correo almacenados:', token, user.id, emailIngreso);
+
             alert('Inicio de sesión exitoso');
             setIsAuthenticated(true);  // Cambia el estado de autenticación
             navigate('/home');  // Redirige al Home
