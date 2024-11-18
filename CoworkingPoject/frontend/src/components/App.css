@@ -314,12 +314,22 @@ body{
     border-radius: 1rem;
     box-shadow: 1px 1px 5px ;
 }
-
-
 /* Asegúrate de que no haya viñetas en el contenedor del botón */
 ul, ol {
     list-style-type: none;
     padding: 0;
-    margin: 0;
+    margin: 0;
 }
 
+.usuario{
+    position: relative;
+    width: 95vw;
+    height: 95vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #D7EAF5;
+    overflow: hidden;
+    border-radius: 1rem;
+    box-shadow: 1px 1px 5px ;
+}

@@ -3,7 +3,7 @@ import './body.css';
 import CrearEspacio from '../crearEspacio'; // Asegúrate de que esta ruta sea correcta.
 import ListarEspacios from '../listarEspacios'; // Asegúrate de que esta ruta sea correcta.
 import ActualizarEspacios from '../actualizarEspacio'; // Asegúrate de que esta ruta sea correcta.
-import EliminarEspacios from '../../Usuario/eliminarEspacio'; // Asegúrate de que esta ruta sea correcta.
+import EliminarEspacios from '../eliminarEspacio'; // Asegúrate de que esta ruta sea correcta.
 import ReservasCalendario from '../historialReservas'; // Asegúrate de que esta ruta sea correcta.
 
 const Body = ({ currentSection }) => {

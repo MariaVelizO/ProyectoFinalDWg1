@@ -9,7 +9,7 @@ const Bar = ({ onSectionChange }) => {
     return (
         <div className="bar grid">
             <div className="LogoDiv flex">
-                <img src={logo} alt="logo" />
+                <img className="imgLogo" src={logo} alt="logo" />
                 <h2>CoworkSpace</h2>
             </div>
 

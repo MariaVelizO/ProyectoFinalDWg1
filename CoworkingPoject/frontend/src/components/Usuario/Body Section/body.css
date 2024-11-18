@@ -1,8 +1,8 @@
-.mainContent{
+.UsuMainContent {
     width: 82%;
     height: 100%;
     padding: 2rem;
     overflow: auto;
     background-color: #FFFF;
-    background: #ffff;
+    background: #FFFF;
 }

@@ -1,8 +1,8 @@
   /* Home.css */
-  img {
+  .inicio {
     position: absolute; /* Asegura que la imagen se quede fija */
     left: 0; 
-    top: 65px;
+    top: 95px;
     bottom: -800px;  
     width: 40%;  
     height: auto;
@@ -10,6 +10,7 @@
   }
 
 .bienvenida{
+    font-size: 45px;
     margin-top: 90px;
     margin-left: 110px; 
     color: #97a6d8;
@@ -25,4 +26,8 @@ html, body {
     height: 100%;  
     margin: 0; 
     overflow: hidden; /* Desactiva el scroll */
+}
+
+.texto{
+    margin-left: 130px; 
 }
