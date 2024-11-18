@@ -14,6 +14,8 @@ function checkRole(role){
         // Extraer el token desde el encabezado 'authorization'
         let token = req.headers['authorization'];
 
+        console.log('Token recibido:', token);
+        
         // Si existe, extraer el token después del 'Bearer ' (caso del frontend)
         if (token && token.startsWith('Bearer ')) {
             token = token.split(' ')[1]; // Usar solo la parte del token.

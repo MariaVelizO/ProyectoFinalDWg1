@@ -3,7 +3,8 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import './Design.css'; 
 import Login from './Login'; 
 import Register from './Register'; 
-import Home from './Home'; 
+//import Home from './Home'; 
+import UserPanel from './UserPanel';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false); // Estado de autenticación
@@ -14,12 +15,14 @@ function App() {
       <Routes>
         {/* Ruta predeterminada, redirige automáticamente a /login */}
         <Route path="/" element={<Navigate to="/login" replace />} />
+        
+
         {/* Ruta para login */}
         <Route 
           path="/login" 
           element={
             isAuthenticated ? (
-              <Navigate to="/home" replace />
+              <Navigate to="/userpanel" replace />
             ) : (
               <div className={`container ${isSignUpActive ? 'right-panel-active' : ''}`} id="container">
                 <div className="App">
@@ -58,7 +61,7 @@ function App() {
           path="/register" 
           element={
             isAuthenticated ? (
-              <Navigate to="/home" replace />
+              <Navigate to="/userpanel" replace />
             ) : (
               <div className={`container ${isSignUpActive ? 'right-panel-active' : ''}`} id="container">
                 <div className="App">
@@ -93,7 +96,7 @@ function App() {
         />
         
         {/* Ruta para el home (si es autenticado) */}
-        <Route path="/home" element={isAuthenticated ? <Home /> : <Navigate to="/login" replace />} />
+        <Route path="/userpanel" element={isAuthenticated ? <UserPanel /> : <Navigate to="/login" replace />} />
       </Routes>
     </Router>
   );
