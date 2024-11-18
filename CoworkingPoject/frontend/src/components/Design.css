@@ -254,3 +254,63 @@ button:disabled {
     opacity: 0.5;
     cursor: not-allowed;
 }
+
+
+img {
+    width: 100%;
+    height: auto;
+}
+
+.flex{
+    display: flex;
+    align-items: center;
+    background-color: #DBF2BF;
+}
+
+
+.grid{
+    display: grid;
+    align-items: center;
+    gap: 1.5rem;
+    background-color: #DBF2BF;
+}
+
+.btn {
+    border: none;
+    outline: none;
+    cursor: pointer;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px color(#011b2b);
+    padding: .8rem 1rem;
+    color: rgb(255, 255, 255);
+}
+
+.btn .icon {
+    margin-left: .5rem;
+}
+
+.btn:hover{
+    background-color: aquamarine;
+    color: rgb(141, 154, 165);
+}
+
+body{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    padding: 1rem;
+}
+
+.admin{
+    position: relative;
+    width: 95vw;
+    height: 95vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #D7EAF5;
+    overflow: hidden;
+    border-radius: 1rem;
+    box-shadow: 1px 1px 5px ;
+}

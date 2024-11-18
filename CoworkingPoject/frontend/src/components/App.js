@@ -5,6 +5,7 @@ import Login from './Login';
 import Register from './Register'; 
 //import Home from './Home'; 
 import UserPanel from './UserPanel';
+import Home from './Home'; 
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false); // Estado de autenticación
@@ -21,7 +22,7 @@ function App() {
           path="/login" 
           element={
             isAuthenticated ? (
-              <Navigate to="/userpanel" replace />
+              <Navigate to="/home" replace />
             ) : (
               <div className={`container ${isSignUpActive ? 'right-panel-active' : ''}`} id="container">
                 <div className="App">
@@ -60,7 +61,7 @@ function App() {
           path="/register" 
           element={
             isAuthenticated ? (
-              <Navigate to="/userpanel" replace />
+              <Navigate to="/home" replace />
             ) : (
               <div className={`container ${isSignUpActive ? 'right-panel-active' : ''}`} id="container">
                 <div className="App">
@@ -94,8 +95,8 @@ function App() {
           }
         />
         
-        {/* Ruta para el home (si es autenticado) */}
-        <Route path="/userpanel" element={isAuthenticated ? <UserPanel /> : <Navigate to="/login" replace />} />
+         {/* Ruta para el home (si es autenticado) */}
+         <Route path="/home" element={isAuthenticated ? <Home /> : <Navigate to="/login" replace />} />
       </Routes>
     </Router>
   );

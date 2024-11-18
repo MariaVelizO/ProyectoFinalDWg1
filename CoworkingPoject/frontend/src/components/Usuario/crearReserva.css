@@ -1,0 +1,117 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
+.crearReserva {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+  }
+  
+  h1, h3 {
+    color: #19232D;
+    font-size: 16px; 
+  }
+  
+  .fecha-hora-container {
+    background-color: #DBF2BF;
+    padding: 10px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  label {
+    display: block;
+    font-weight: bold;
+    font-family: 'Montserrat', sans-serif;
+    margin-bottom: 5px;
+    color: #333;
+  }
+  
+  input[type="date"],
+  input[type="time"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 12px;
+  }
+  
+  /* Botones */
+  .button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #19232D;
+    color: white;
+    font-size: 12px; 
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    text-align: center;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px 0;
+  }
+  
+  .espaciosDisponibles {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  .espaciosDisponibles h3 {
+    font-size: 14px; 
+    margin-bottom: 20px; 
+  }
+  
+  .espacioCard {
+    width: 200px;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #797A79;
+    border-radius: 8px;
+    font-family: 'Montserrat', sans-serif;
+    background-color: #ffffff;
+    cursor: pointer;
+    display: inline-block;
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .espacioCard:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .espacioCard.selected {
+    background-color: #eef6ff;
+  }
+  
+  .reservaDetalle {
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 8px;
+    font-family: 'Montserrat', sans-serif;
+    background-color: #fff;
+    border: 1px solid #797A79;
+    font-size: 12px; /* Tamaño de texto más pequeño */
+  }
+  
+  .reservaDetalle h4 {
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #333;
+  }
+  
+  .reservaDetalle p {
+    margin: 5px 0;
+    color: #555;
+  }
+  
+  .confirmButton {
+    background-color: #32465a;
+    font-size: 12px; /* Tamaño de texto ajustado */
+  }
+  
+  .confirmButton:hover {
+    background-color: #19232D;
+  }
