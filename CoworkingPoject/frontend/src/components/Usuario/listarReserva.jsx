@@ -274,23 +274,34 @@ const ListarReserva = () => {
     // Eliminar una reserva
     const eliminarReserva = async (reservaId) => {
       const token = localStorage.getItem("token");
-  
+    
       if (!token) {
         setError("No estás autenticado. Por favor, inicia sesión nuevamente.");
         return;
       }
-  
+    
       try {
-        await axios.delete(
+        // Realizar la solicitud para cambiar el estado a "inactivo"
+        const response = await axios.put(
           `http://localhost:3001/api/usuario/reserva-cancelacion/${reservaId}`,
+          {}, // No se requiere cuerpo en este caso
           { headers: { Authorization: `Bearer ${token}` } }
         );
-        setReservas((prev) => prev.filter((reserva) => reserva._id !== reservaId));
-        alert("Reserva eliminada correctamente.");
+    
+        // Actualizar la reserva en la lista localmente
+        setReservas((prev) =>
+          prev.map((reserva) =>
+            reserva._id === reservaId ? { ...reserva, estado: 'inactivo' } : reserva
+          )
+        );
+    
+        alert(response.data.mensaje); // Mensaje del backend
       } catch (err) {
-        setError("Error al eliminar la reserva. Intenta más tarde.");
+        console.error("Error al cancelar la reserva:", err.message);
+        setError("Error al cancelar la reserva. Intenta más tarde.");
       }
     };
+    
   
     // Mostrar formulario de modificación dentro del contenedor
     const mostrarFormularioModificacion = (reserva) => {
@@ -350,67 +361,69 @@ const ListarReserva = () => {
         <div className="reservasContainer">
           {reservas.length === 0 && !cargando && <p>No tienes reservas registradas.</p>}
   
-          {reservas.map((reserva) => (
-            <div key={reserva._id} className="reservaCard">
-              <h3>Reserva en: {reserva.espacio.nombre}</h3>
-              <p><strong>Fecha:</strong> {reserva.fechaReserva}</p>
-              <p><strong>Hora Inicio:</strong> {reserva.horaInicio}</p>
-              <p><strong>Hora Fin:</strong> {reserva.horaFin}</p>
-              
-              <div className="reservaActions">
-                <button
-                  onClick={() => mostrarFormularioModificacion(reserva)}
-                  className="button modificar-button"
-                >
-                  {reservaSeleccionada && reservaSeleccionada._id === reserva._id
-                    ? "Cancelar"
-                    : "Modificar"}
-                </button>
-                <button
-                  onClick={() => eliminarReserva(reserva._id)}
-                  className="button eliminar-button"
-                >
-                  Eliminar
-                </button>
-              </div>
-  
-              {/* Mostrar el formulario de modificación si la reserva está seleccionada */}
-              {reservaSeleccionada && reservaSeleccionada._id === reserva._id && (
-                <div className="modificarFormulario">
-                  <form onSubmit={manejarModificacion}>
-                    <div>
-                      <label>Fecha:</label>
-                      <input
-                        type="text"
-                        name="fechaReserva"
-                        value={nuevosDatos.fechaReserva}
-                        readOnly
-                      />
-                    </div>
-                    <div>
-                      <label>Hora Inicio:</label>
-                      <input
-                        type="time"
-                        name="horaInicio"
-                        value={nuevosDatos.horaInicio}
-                        onChange={manejarCambio}
-                      />
-                    </div>
-                    <div>
-                      <label>Hora Fin:</label>
-                      <input
-                        type="time"
-                        name="horaFin"
-                        value={nuevosDatos.horaFin}
-                        onChange={manejarCambio}
-                      />
-                    </div>
-                    <button type="submit" className="guardar-button">Guardar Cambios</button>
-                  </form>
-                </div>
-              )}
+          {reservas
+  .filter((reserva) => reserva.estado !== 'inactivo') // Excluir reservas inactivas
+  .map((reserva) => (
+    <div key={reserva._id} className="reservaCard">
+      <h3>Reserva en: {reserva.espacio.nombre}</h3>
+      <p><strong>Fecha:</strong> {reserva.fechaReserva}</p>
+      <p><strong>Hora Inicio:</strong> {reserva.horaInicio}</p>
+      <p><strong>Hora Fin:</strong> {reserva.horaFin}</p>
+
+      <div className="reservaActions">
+        <button
+          onClick={() => mostrarFormularioModificacion(reserva)}
+          className="button modificar-button"
+        >
+          {reservaSeleccionada && reservaSeleccionada._id === reserva._id
+            ? "Cancelar"
+            : "Modificar"}
+        </button>
+        <button
+          onClick={() => eliminarReserva(reserva._id)}
+          className="button eliminar-button"
+        >
+          Cancelar
+        </button>
+      </div>
+
+      {reservaSeleccionada && reservaSeleccionada._id === reserva._id && (
+        <div className="modificarFormulario">
+          <form onSubmit={manejarModificacion}>
+            <div>
+              <label>Fecha:</label>
+              <input
+                type="text"
+                name="fechaReserva"
+                value={nuevosDatos.fechaReserva}
+                readOnly
+              />
             </div>
-          ))}
+            <div>
+              <label>Hora Inicio:</label>
+              <input
+                type="time"
+                name="horaInicio"
+                value={nuevosDatos.horaInicio}
+                onChange={manejarCambio}
+              />
+            </div>
+            <div>
+              <label>Hora Fin:</label>
+              <input
+                type="time"
+                name="horaFin"
+                value={nuevosDatos.horaFin}
+                onChange={manejarCambio}
+              />
+            </div>
+            <button type="submit" className="guardar-button">Guardar Cambios</button>
+          </form>
+        </div>
+      )}
+    </div>
+  ))}
+
         </div>
       </div>
     );

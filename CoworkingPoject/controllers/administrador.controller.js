@@ -71,7 +71,31 @@ exports.deleteEspacio = async (req, res) =>{
 //RESERVA
 
 //imprimir reservas 
-exports.getAllReserva = async (req, res) =>{
-    const Reservas  = await Reserva.find();
-    res.status(200).json(Reservas );
+exports.getAllReserva = async (req, res) => {
+    try {
+        // Obtener todas las reservas y poblar los campos 'usuario' y 'espacio'
+        const reservas = await Reserva.find()
+            .populate('usuario', 'nombre')  // Poblar el campo 'usuario' con 'nombre'
+            .populate('espacio', 'nombre'); // Poblar el campo 'espacio' con 'nombre'
+
+        if (reservas.length > 0) {
+            res.status(200).json({
+                success: true,
+                message: 'Reservas obtenidas con éxito',
+                data: reservas
+            });
+        } else {
+            res.status(404).json({
+                success: false,
+                message: 'No se encontraron reservas.'
+            });
+        }
+    } catch (error) {
+        console.error('Error al obtener las reservas:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Error al obtener las reservas',
+            error: error.message
+        });
+    }
 };

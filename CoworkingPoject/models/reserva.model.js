@@ -5,12 +5,12 @@ const mongoose = require('mongoose')
 const ReservaEsquema = new mongoose.Schema({
     usuario: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Usuario',  
+        ref: 'usuario',  
         required: true
     },
     espacio: { 
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Espacios',
+        ref: 'Espacio',
         required: true
     },
     fechaReserva: {

@@ -66,11 +66,11 @@
   }
   
   .espacioCard {
-    width: 200px;
+    width: 400px;
     margin: 10px;
     padding: 10px;
-    border: 1px solid #797A79;
-    border-radius: 8px;
+    border: 1px solid #ffffff;
+    border-radius: 0px;
     font-family: 'Montserrat', sans-serif;
     background-color: #ffffff;
     cursor: pointer;

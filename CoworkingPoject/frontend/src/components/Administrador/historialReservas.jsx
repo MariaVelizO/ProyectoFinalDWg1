@@ -23,22 +23,24 @@ const ReservasCalendario = () => {
         setError("No estás autenticado. El token es requerido.");
         return;
       }
-
+      
       try {
         const response = await axios.get("http://localhost:3001/api/admin/reservas", {
           headers: { Authorization: `Bearer ${token}` },
         });
-
-        // Verifica que la respuesta sea un arreglo de reservas
-        console.log("Reservas fetch:", response.data.data);
-
-        setReservas(response.data.data); // Si la respuesta tiene 'data', usamos 'data' para las reservas
+    
+        if (response.data.success) {
+          setReservas(response.data.data); // Guardar las reservas en el estado
+        } else {
+          setError(response.data.message); // Mostrar mensaje de error
+        }
       } catch (error) {
         console.error("Error fetching reservas:", error);
         setError(`Error al cargar reservas: ${error.response?.data.message || error.message}`);
       }
     };
-
+    
+    
     fetchReservas();
   }, []);
 
@@ -46,37 +48,43 @@ const ReservasCalendario = () => {
   const handleDateClick = (date) => {
     setSelectedDate(date);
     const reservasDelDia = reservas.filter(reserva => {
-      const reservaDate = moment(reserva.fechaReserva).local(); // Convertir a hora local
-      return reservaDate.isSame(date, 'day'); // Comparar por día usando moment.js
+      const reservaDate = moment(reserva.fechaReserva).format('YYYY-MM-DD');
+      const selectedDate = moment(date).format('YYYY-MM-DD');
+      return reservaDate === selectedDate; 
     });
+    console.log('Reservas para el día seleccionado:', reservasDelDia);
     setReservasPorFecha(reservasDelDia);
   };
 
   // Función para marcar los días con reservas
   const tileClassName = ({ date, view }) => {
     if (view === "month") {
-      const hayReserva = reservas.some((reserva) => {
-        const reservaDate = moment(reserva.fechaReserva).local(); // Convertir la fecha de la reserva a hora local
-        return reservaDate.isSame(date, 'day'); // Comparar usando moment.js
-      });
-
-      // Si es el día actual, asignamos la clase 'today'
-      if (moment().isSame(date, 'day')) {
-        return 'today'; // Añadimos la clase 'today' para el día actual
+      if (!Array.isArray(reservas)) {
+        return; 
       }
-
-      return hayReserva ? "marked" : null; // Añadimos clase "marked" si hay reserva
+  
+      const hayReserva = reservas.some((reserva) => {
+        const reservaDate = moment(reserva.fechaReserva).format('YYYY-MM-DD');
+        const selectedDate = moment(date).format('YYYY-MM-DD');
+        return reservaDate === selectedDate;
+      });
+  
+      if (moment().isSame(date, 'day')) {
+        return 'today';
+      }
+  
+      return hayReserva ? "marked" : null;
     }
   };
-
+  
   return (
     <div className="calendarioReservas">
       <h2>Calendario de Reservas</h2>
       <Calendar
-        onClickDay={(date) => handleDateClick(date)}  // Llamamos a la función de selección
-        tileClassName={tileClassName}  // Clase para marcar días con reservas
-        value={selectedDate}  // Fecha seleccionada
-        locale="es-ES"  // Establecer el idioma a español
+        onClickDay={(date) => handleDateClick(date)}
+        tileClassName={tileClassName}
+        value={selectedDate}
+        locale="es-ES"
       />
 
       {/* Mostrar las reservas para la fecha seleccionada */}
@@ -113,6 +121,7 @@ const ReservasCalendario = () => {
           </>
         )}
       </div>
+      {error && <p className="error">{error}</p>}
     </div>
   );
 };

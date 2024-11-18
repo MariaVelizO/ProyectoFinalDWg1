@@ -34,7 +34,7 @@ function Login({ setIsAuthenticated, setIsSignUpActive, setRole }) {
             alert('Inicio de sesión exitoso');
             setIsAuthenticated(true);  // Cambia el estado de autenticación
             setRole(user.role);  // Asumimos que el API devuelve un campo 'role' en el objeto 'user'
-            navigate(user.role === 'admin' ? '/adminpanel' : '/userpanel');  // Redirige según el rol
+            navigate('/home');  // Redirige a la página de inicio         
         } catch (err) {
             setError(err.response?.data || 'Error en el inicio de sesión');
             console.error("Error al iniciar sesión:", err);
