@@ -1,18 +1,27 @@
-import React, { useState } from 'react';
-import Bar from "./Usuario/Bar Section/bar";
-import Body from "./Usuario/Body Section/Body";
+// Home.js
+import React, { useEffect } from 'react';
+import { Navigate } from 'react-router-dom';
+import './Home.css';
 
-const Home = () => {
-    const [currentSection, setCurrentSection] = useState("default"); // "default" muestra el contenido inicial.
+function Home({ role }) {
+  // Redirigir al panel correspondiente según el rol
+  useEffect(() => {
+    if (role === 'admin') {
+      // Redirigir al panel de administrador
+      return <Navigate to="/adminpanel" replace />;
+    } else if (role === 'user') {
+      // Redirigir al panel de usuario
+      return <Navigate to="/userpanel" replace />;
+    }
+  }, [role]);
 
-    return (
-        <div className="admin">
-          
-            <Bar onSectionChange={setCurrentSection} />
-    
-            <Body currentSection={currentSection} />
-        </div>
-    );
-};
+  return (
+    <div>
+      <h1 className='bienvenida'>Welcome to CoLab Studio</h1>
+      { <img src="/homeA.png" alt="Home" />}
+      <p>   Un espacio pensado para lo que más importa: tu creatividad, tu trabajo y tu futuro</p>
+    </div>
+  );
+}
 
 export default Home;

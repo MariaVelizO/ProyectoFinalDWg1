@@ -1,0 +1,28 @@
+  /* Home.css */
+  img {
+    position: absolute; /* Asegura que la imagen se quede fija */
+    left: 0; 
+    top: 65px;
+    bottom: -800px;  
+    width: 40%;  
+    height: auto;
+    height: 90vh; 
+  }
+
+.bienvenida{
+    margin-top: 90px;
+    margin-left: 110px; 
+    color: #97a6d8;
+    text-shadow: 
+    1px 1px 1px #31427a,
+    -1px -1px 1px #31427a,
+    1px -1px 1px #31427a,
+    -1px 1px 1px #31427a;
+    letter-spacing: 2px;  /* Espacio entre las letras */
+}
+
+html, body {
+    height: 100%;  
+    margin: 0; 
+    overflow: hidden; /* Desactiva el scroll */
+}
