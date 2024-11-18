@@ -16,7 +16,6 @@ function App() {
         {/* Ruta predeterminada, redirige automáticamente a /login */}
         <Route path="/" element={<Navigate to="/login" replace />} />
         
-
         {/* Ruta para login */}
         <Route 
           path="/login" 

@@ -3,25 +3,31 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 function Login({ setIsAuthenticated, setIsSignUpActive }) {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [emailIngreso, setEmailIngreso] = useState('');
+    const [passwordIngreso, setPasswordIngreso] = useState('');
     const [error, setError] = useState(null);
+    const [touched, setTouched] = useState({ emailIngreso: false, passwordIngreso: false });
     const navigate = useNavigate(); // Para manejar la redirección
+
+    // Validaciones
+    const isEmailIngresoValid = /^[a-zA-Z0-9._%+-]+@gmail\.com$/.test(emailIngreso);
+    const isPasswordIngresoValid = passwordIngreso.length >= 6;
+    const isLoginValid = isEmailIngresoValid && isPasswordIngresoValid;
 
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:3001/api/usuario/user-login', {
-                email,
-                password,
+            const response = await axios.post('http://localhost:3001/api/usuario/user-login', { 
+                email: emailIngreso, 
+                password: passwordIngreso 
             });
 
             // Guardar el token en localStorage
             const { token, user } = response.data;
             localStorage.setItem('token', token);
             localStorage.setItem('userId', user.id);  // Guardamos el ID
-            localStorage.setItem('userEmail', email); // Guardamos el correo
-            console.log('Token, ID y correo almacenados:', token, user.id, email);
+            localStorage.setItem('userEmail', emailIngreso); // Guardamos el correo
+            console.log('Token, ID y correo almacenados:', token, user.id, emailIngreso);
 
             alert('Inicio de sesión exitoso');
             setIsAuthenticated(true);  // Cambia el estado de autenticación
@@ -30,6 +36,10 @@ function Login({ setIsAuthenticated, setIsSignUpActive }) {
             setError(err.response?.data || 'Error en el inicio de sesión');
             console.error("Error al iniciar sesión:", err);
         }
+    };
+
+    const handleBlur = (field) => {
+        setTouched(prev => ({ ...prev, [field]: true }));
     };
 
     const goToRegister = () => {
@@ -43,20 +53,30 @@ function Login({ setIsAuthenticated, setIsSignUpActive }) {
             <input
                 type="email"
                 placeholder="Correo electrónico"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={emailIngreso}
+                onChange={(e) => setEmailIngreso(e.target.value)}
+                className={touched.emailIngreso && !isEmailIngresoValid ? "input-invalid" : isEmailIngresoValid ? "input-valid" : "input-black"}
+                onBlur={() => handleBlur('emailIngreso')}
                 required
             />
+            {touched.emailIngreso && !isEmailIngresoValid && <p className="error-message">El correo debe ser un Gmail válido.</p>}
+
             <input
                 type="password"
                 placeholder="Contraseña"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                value={passwordIngreso}
+                onChange={(e) => setPasswordIngreso(e.target.value)}
+                className={touched.passwordIngreso && !isPasswordIngresoValid ? "input-invalid" : isPasswordIngresoValid ? "input-valid" : "input-black"}
+                onBlur={() => handleBlur('passwordIngreso')}
                 required
             />
-            <button type="submit">Sign in</button>
+            {touched.passwordIngreso && !isPasswordIngresoValid && <p className="error-message">La contraseña debe tener al menos 6 caracteres.</p>}
+
+            <button type="submit" className="mostrar-boton" disabled={!isLoginValid}>
+                Sign in
+            </button>
             <a href="#" onClick={goToRegister}>Don't have an account? Sign Up</a>
-            {error && <p className="error-mensaje">Error: {error}</p>}
+            {error && <p className="error-message">{error}</p>}
         </form>
     );
 }
