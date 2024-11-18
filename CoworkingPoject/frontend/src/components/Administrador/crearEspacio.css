@@ -1,0 +1,82 @@
+.crearEspacio {
+  padding: 40px;
+  max-width: 700px; 
+  margin: 40px auto; 
+  background: #d2b3db52;
+  border-radius: 12px; 
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); 
+}
+
+.crearEspacio h2 {
+  text-align: center;
+  margin-bottom: 30px; 
+  font-size: 24px; 
+  color: #080808; 
+  font-weight: bold; 
+}
+
+.crearEspacio form {
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  gap: 20px; 
+}
+
+.crearEspacio input, 
+.crearEspacio select, 
+.crearEspacio textarea {
+  padding: 15px; 
+  font-size: 18px;
+  border: 2px solid #ffffff;
+  border-radius: 8px; 
+  background-color: #fefefe; 
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05); 
+  transition: border-color 0.3s ease, box-shadow 0.3s ease; 
+}
+
+.crearEspacio input:focus, 
+.crearEspacio select:focus, 
+.crearEspacio textarea:focus {
+  border-color: #d0a2df;
+  box-shadow: 0 0 8px rgba(76, 175, 80, 0.3); 
+  outline: none; 
+}
+
+.crearEspacio button {
+  padding: 15px; 
+  font-size: 18px;
+  font-weight: bold; 
+  color: white;
+  background-color: #D2B3DB; 
+  border: none;
+
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease; 
+}
+
+.crearEspacio button:hover {
+  background-color: #551b8b54; 
+  transform: translateY(-2px); 
+}
+
+.crearEspacio button:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+  .crearEspacio {
+    padding: 20px; 
+    max-width: 90%;
+  }
+
+  .crearEspacio h2 {
+    font-size: 20px; 
+  }
+
+  .crearEspacio input, 
+  .crearEspacio select, 
+  .crearEspacio textarea, 
+  .crearEspacio button {
+    font-size: 12px; 
+  }
+}

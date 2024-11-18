@@ -1,0 +1,21 @@
+.mainContent{
+    width: 82%;
+    height: 100%;
+    padding: 2rem;
+    overflow: auto;
+    background-color: #FFFF;
+    background: #ffff;
+}
+
+.mainContent > div > h2 {
+    border: 2px solid #DBF2BF; 
+    padding: 10px;           
+    border-radius: 8px;      
+    background-color: #DBF2BF;
+    color: #19232D;              
+    text-align: center;       
+    margin-bottom: 20px;  
+    margin-top: 0px;  
+  }
+  
+  

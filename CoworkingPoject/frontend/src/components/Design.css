@@ -314,3 +314,12 @@ body{
     border-radius: 1rem;
     box-shadow: 1px 1px 5px ;
 }
+
+
+/* Asegúrate de que no haya viñetas en el contenedor del botón */
+ul, ol {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+

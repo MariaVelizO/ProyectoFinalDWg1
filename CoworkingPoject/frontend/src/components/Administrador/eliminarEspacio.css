@@ -1,0 +1,65 @@
+.listarEspacios {
+    padding: 20px;
+  }
+  
+.espaciosContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.espacioCard {
+  background-color: #ffffff; 
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
+}
+
+.espacioCard:hover {
+  transform: translateY(-10px);
+}
+
+.espacioCard h3 {
+  font-size: 24px;
+  color: #3a3a3a; 
+  margin-bottom: 10px;
+}
+
+.espacioCard p {
+  font-size: 16px;
+  color: #5c5c5c;
+  margin-bottom: 5px;
+}
+
+
+.espacioCard button {
+
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+}
+
+.espacioCard button:hover {
+  background-color: #989b9b; 
+}
+
+.error {
+  background-color: #fae6e6; 
+  color: #d9534f; 
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+
+.listarEspacios p {
+  font-size: 18px;
+  color: #5c5c5c;
+  text-align: center;
+  margin-top: 20px;
+}
