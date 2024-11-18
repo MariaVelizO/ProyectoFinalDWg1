@@ -1,0 +1,107 @@
+
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
+.reservaCard {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    padding: 10px; 
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Montserrat', sans-serif;
+    gap: 10px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px; 
+    max-width: 400px;
+    align-items: center; 
+    justify-content: center; 
+    position: relative; 
+}
+
+.reservaActions {
+    display: flex;
+    gap: 10px;
+    justify-content: center; 
+    width: 100%; 
+}
+
+.button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 12px;
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+}
+
+.modificar-button {
+    background-color: #4caf50;
+    color: white;
+}
+
+.modificar-button:hover {
+    background-color: #388e3c;
+}
+
+.eliminar-button {
+    background-color: #f44336;
+    color: white;
+}
+
+.eliminar-button:hover {
+    background-color: #d32f2f;
+}
+
+.modificarFormulario {
+    position: absolute; 
+    top: 50%; 
+    right: -500px; 
+    transform: translateY(-50%); 
+    background-color: #f5f5f500;
+    font-family: 'Montserrat', sans-serif;
+    padding: 20px;
+    border-radius: 3px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 350px; 
+    transition: right 0.3s ease-in-out; 
+}
+
+.modificarFormulario.visible {
+    right: 10px; 
+}
+
+input[type="text"], input[type="time"] {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button.guardar-button {
+    background-color: #19232D;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    width: 100%;
+}
+
+button.guardar-button:hover {
+    background-color: #19232D;
+}
+
+.cancelar-button {
+    background-color: #888;
+    color: white;
+    padding: 10px 20px;
+    font-family: 'Montserrat', sans-serif;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+}
+
+.cancelar-button:hover {
+    background-color: #666;
+}
