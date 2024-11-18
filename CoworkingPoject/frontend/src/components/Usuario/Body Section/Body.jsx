@@ -3,12 +3,12 @@ import './body.css';
 import CrearReservas from '../../Usuario/crearReservas'; 
 import ListarReserva from '../../Usuario/listarReserva'; 
 
-const Body = ({ currentSection }) => {
+const UsuBody = ({ currentSection }) => {
     return (
-        <div className="mainContent">
+        <div className="UsuMainContent">
             {currentSection === "CrearReservas" && (
                 <div>
-                    <h2>Crear Nueva reserva</h2>
+                    <h2>Crear Nueva Reserva</h2>
                     <CrearReservas />
                 </div>
             )}
@@ -22,7 +22,7 @@ const Body = ({ currentSection }) => {
             
             {currentSection === "default" && (
                 <div>
-                    <h2>Bienvenido al Panel de usuario</h2>
+                    <h2>Bienvenido al Panel de Usuario</h2>
                     <p>Selecciona una opción del menú para comenzar.</p>
                 </div>
             )}
@@ -30,4 +30,4 @@ const Body = ({ currentSection }) => {
     );
 };
 
-export default Body;
+export default UsuBody;

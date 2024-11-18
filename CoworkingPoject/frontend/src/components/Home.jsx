@@ -18,8 +18,8 @@ function Home({ role }) {
   return (
     <div>
       <h1 className='bienvenida'>Welcome to CoLab Studio</h1>
-      { <img src="/homeA.png" alt="Home" />}
-      <p>   Un espacio pensado para lo que más importa: tu creatividad, tu trabajo y tu futuro</p>
+      { <img className='inicio' src="/homeA.png" alt="Home" />}
+      <p className='texto'>   Un espacio pensado para lo que más importa: tu creatividad, tu trabajo y tu futuro</p>
     </div>
   );
 }

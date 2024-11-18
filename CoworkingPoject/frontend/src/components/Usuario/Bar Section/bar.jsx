@@ -3,30 +3,29 @@ import './bar.css';
 
 import logo from '../../../assets/logo.png';
 
-//import { CiEdit, CiCircleList, CiSquarePlus, CiSquareRemove, CiCalendarDate } from "react-icons/ci";
-const Bar = ({ onSectionChange }) => {
+const UsuBar = ({ onSectionChange }) => {
     return (
-        <div className="bar grid">
-            <div className="LogoDiv flex">
-                <img src={logo} alt="logo" />
+        <div className="UsuBar grid">
+            <div className="UsuLogoDiv flex">
+                <img className="imgLogo" src={logo} alt="logo" />
                 <h2>CoworkSpace</h2>
             </div>
 
-            <div className="menuDiv">
-                <h3 className="divTitule">RESERVA</h3>
-                <div className="buttonContainer">
+            <div className="UsuMenuDiv">
+                <h3 className="UsuDivTitule">RESERVA</h3>
+                <div className="UsuButtonContainer">
                     <button
-                        className="menuLink flex"
+                        className="UsuMenuLink flex"
                         onClick={() => onSectionChange("CrearReservas")}
                     >
-                        <span className="smallText">Crear Reserva</span>
+                        <span className="UsuSmallText">Crear Reserva</span>
                     </button>
 
                     <button
-                        className="menuLink flex"
+                        className="UsuMenuLink flex"
                         onClick={() => onSectionChange("ListarReserva")}
                     >
-                        <span className="smallText">Historial Reserva</span>
+                        <span className="UsuSmallText">Historial Reserva</span>
                     </button>
                 </div>
             </div>
@@ -34,4 +33,4 @@ const Bar = ({ onSectionChange }) => {
     );
 };
 
-export default Bar;
+export default UsuBar;

@@ -5,8 +5,8 @@ import Navbar from './Navbar';
 import Login from './Login'; 
 import Register from './Register'; 
 import Home from './Home'; 
-import AdminPanel from './AdminPanel'; 
-import UserPanel from './UserPanel'; 
+import AdminPanel from './Administrador/AdminPanel'; 
+import UserPanel from './Usuario/UserPanel'; 
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false); // Estado de autenticación

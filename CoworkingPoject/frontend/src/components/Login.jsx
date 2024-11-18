@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-function Login({ setIsAuthenticated, setIsSignUpActive }) {
+function Login({ setIsAuthenticated, setIsSignUpActive, setRole }) {
     const [emailIngreso, setEmailIngreso] = useState('');
     const [passwordIngreso, setPasswordIngreso] = useState('');
     const [error, setError] = useState(null);
@@ -27,11 +27,14 @@ function Login({ setIsAuthenticated, setIsSignUpActive }) {
             localStorage.setItem('token', token);
             localStorage.setItem('userId', user.id);  // Guardamos el ID
             localStorage.setItem('userEmail', emailIngreso); // Guardamos el correo
-            console.log('Token, ID y correo almacenados:', token, user.id, emailIngreso);
+            localStorage.setItem('role', user.role); // Guardamos el rol del usuario
+            console.log('Token, ID y correo almacenados:', token, user.id, emailIngreso, user.role);
+            console.log('Rol almacenado en localStorage:', localStorage.getItem('role'));
 
             alert('Inicio de sesión exitoso');
             setIsAuthenticated(true);  // Cambia el estado de autenticación
-            navigate('/home');  // Redirige al Home
+            setRole(user.role);  // Asumimos que el API devuelve un campo 'role' en el objeto 'user'
+            navigate(user.role === 'admin' ? '/adminpanel' : '/userpanel');  // Redirige según el rol
         } catch (err) {
             setError(err.response?.data || 'Error en el inicio de sesión');
             console.error("Error al iniciar sesión:", err);
